@@ -1,0 +1,18 @@
+.program-form select{
+    padding: 6px 12px;
+}
+.program-form select .select2-selection__clear{
+    margin-top: 0;
+}
+.input-daterange{
+    display: flex !important;
+}
+#edit-check > * {
+    margin: 0 !important;
+    vertical-align: middle !important;
+}
+.sutdant-name{
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+}
