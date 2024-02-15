@@ -8,7 +8,7 @@
             ?>
             <input type="number" class="form-control" name="<?php echo $column_name; ?>" />
         <?php elseif ($meta["type"] == "select"):
-            $options = getData($column);
+            $options = getData($column, []);
             ?>
             <select class="select2 form-control" data-column="<?php echo $column ?>" id="<?php echo $column_id; ?>" name="<?php echo $column_id; ?>[]" multiple="multiple">
                 <?php

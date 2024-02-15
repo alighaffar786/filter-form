@@ -12,12 +12,23 @@ function connection(){
         return $connection;
     }
 }
-function getData($column, $where_clause = ""){
+function getData($column, $request){
     $sql = "Select distinct(`$column`) as option_value from kms_courses_dev";
+
+    $where = [];
+    foreach($request['data'] as $key => $values){
+         if($column != $key){
+            $in =  "'" . implode("','", $values) . "'";
+            $where[] =  "`$key` IN ($in)";
+         }
+    }
+
+    $where_clause = implode(" and ", $where);
+
     if(!empty($where_clause)) {
         $sql.= " where ".$where_clause;
     }
-    wh_log($sql);
+    wh_log($column.print_r($where,true).$sql);
     
     $result = connection()->query($sql);
     $data = [];
