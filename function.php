@@ -17,8 +17,8 @@ function getData($column, $where_clause = ""){
     if(!empty($where_clause)) {
         $sql.= " where ".$where_clause;
     }
-
-
+    wh_log($sql);
+    
     $result = connection()->query($sql);
     $data = [];
     while($row = $result->fetch_assoc()) {
@@ -52,9 +52,21 @@ function toSnakeCase($inputString) {
 }
 
 function get_options($options) {
-
-    ob_start();
-    include_once('_options.php');
-    return ob_get_clean();
+    foreach ($options as $option){
+        $option_value .= "<option name='$option' value='$option'>$option</option>";
+    }
+    return $option_value;
   }
 
+  function wh_log($log_msg)
+  {
+      $log_filename = "log";
+      if (!file_exists($log_filename)) 
+      {
+          // create directory/folder uploads.
+          mkdir($log_filename, 0777, true);
+      }
+      $log_file_data = $log_filename.'/log_' . date('d-M-Y') . '.log';
+      // if you don't add `FILE_APPEND`, the file will be erased each time you add a log
+      file_put_contents($log_file_data, $log_msg . "\n", FILE_APPEND);
+  } 

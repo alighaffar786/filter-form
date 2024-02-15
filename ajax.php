@@ -11,17 +11,21 @@
     unset($columns[$request["column"]]);
     $where = [];
     foreach($request['data'] as $column => $values){
-        $in =  "'" . implode("','", $values) . "'";
-        $where[] =  "`$column` IN ($in)";
+          $in =  "'" . implode("','", $values) . "'";
+          $where[] =  "`$column` IN ($in)";
     }
 
     $where_clause = implode(" and ", $where);
+
     foreach($columns as $column) {
         $data[toSnakeCase($column)] = [
+
                 'html' => get_options(getData($column, $where_clause)), 
-                'selected' => $request[$column]
+                "column" => $column,
+                'selected' => $request['data'][$column]
             ];
     }
+    
     echo json_encode($data);
     die;
   }

@@ -4,23 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+       <!-- select2 dropdown -->
+ 
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
     </script>
-    <!-- select2 dropdown -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./select2/dist/js/select2.min.js"></script>
+    <link href="./select2/dist/css/select2.min.css" rel="stylesheet" />
     <!--    custom css file -->
     <link rel="stylesheet" href="./assets/custom.css">
     <title>Filter Form</title>
@@ -39,9 +40,9 @@
                   include("_row.php");
               endforeach;
             ?>
-            <div class="row hide">
+            <div class="row ">
                 <!-- date  select-->
-                <div class="col-md-3 hide">
+                <div class="col-md-3 ">
                     <div class="form-group">
                         <label class="control-label">Date Created (From/To)</label>
                         <div class="input-group input-daterange">
@@ -53,10 +54,10 @@
                     </div>
                 </div>
                 <!-- columns to show select-->
-                <div class="col-md-6 hide">
+                <div class="col-md-6 ">
                     <div class="form-group">
                         <label class="control-label">Solumns to Show</label>
-                        <select class="program form-control" name="programs[]" multiple="multiple">
+                        <select class="select2 form-control" name="programs[]" multiple="multiple">
                             <option value="AL">Alabama</option>
                             <option value="WY">Wyoming</option>
                         </select>
@@ -65,7 +66,7 @@
             </div>
 
 
-            <div class="row hide">
+            <div class="row ">
                 <div class="col-md-3">
                     <input type="button" value="Search" class="btn btn-primary" asp-route-isprint="false"
                         onclick="search()">
@@ -91,14 +92,12 @@
 </body>
 <script>
   function renderSelect2() {
-      $('.select2').select2({
-          placeholder: "Select",
-          allowClear: true,
-          multiple: true,
-      });
+      
   }
   $(document).ready(function() {
-      renderSelect2();
+    $('.select2').select2({
+          placeholder: "Select",
+      });
       $(".select2").on('change', function() { // 2nd way
           const request = {'data': {}, 'column': jQuery(this).data('column')}
           jQuery('.select2').each(function() {
@@ -118,15 +117,21 @@
           request
         },
         success: function(response) {
+          console.log("response",response)
           const columns = JSON.parse(response);
           for(const column in columns) {
-            const options = columns[column]['html'];
-            const selected = columns[column]['selected'];
-            jQuery(`select#${column}`).html(options);
+            const data = columns[column];
+            const options = data['html'];
+            const selected = data['selected'];
+            console.log(`select#${column}`,selected)
             
+            jQuery(`select#${column}`).html(options);
+            jQuery(`select#${column}`).val(selected);
             jQuery(`select#${column}`).select2('destroy');
             jQuery(`select#${column}`).select2();
-          }
+            
+       
+        }
         },
         error: function(xhr, status, error) {
           console.log(xhr.responseText);
