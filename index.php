@@ -90,65 +90,6 @@
         </form>
     </div>
 </body>
-<script>
-function renderSelect2() {
-
-}
-$(document).ready(function() {
-    $('.select2').select2({
-        placeholder: "Select",
-    });
-    $(".select2").on('change', function() { // 2nd 
-        let request = {
-            'data': {},
-            'column': {}
-        }
-        if (jQuery(this).val().length > 0) {
-            console.log("click",jQuery(this).val())
-            request['column'] = jQuery(this).data('column')
-        }else{
-            console.log("click","not add"+jQuery(this).val())
-
-        }
-        jQuery('.select2').each(function() {
-            if (jQuery(this).val().length > 0) {
-                request['data'][jQuery(this).data('column')] = jQuery(this).val();
-            }
-        })
-        ajax_call(request);
-        console.log(request);
-    });
-});
-
-function ajax_call(request) {
-    $.ajax({
-        type: 'POST',
-        url: 'ajax.php',
-        data: {
-            request
-        },
-        success: function(response) {
-            console.log("response", response)
-            const columns = JSON.parse(response);
-            for (const column in columns) {
-                const data = columns[column];
-                const options = data['html'];
-                const selected = data['selected'];
-                console.log(`select#${column}`, selected)
-
-                jQuery(`select#${column}`).html(options);
-                jQuery(`select#${column}`).val(selected);
-                jQuery(`select#${column}`).select2('destroy');
-                jQuery(`select#${column}`).select2();
-
-
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log(xhr.responseText);
-        }
-    });
-}
-</script>
+<script src="./assets/custom.js"></script>
 
 </html>

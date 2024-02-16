@@ -16,11 +16,14 @@ function getData($column, $request){
     $sql = "Select distinct(`$column`) as option_value from kms_courses_dev";
 
     $where = [];
-    foreach($request['data'] as $key => $values){
-         if($column != $key){
-            $in =  "'" . implode("','", $values) . "'";
-            $where[] =  "`$key` IN ($in)";
-         }
+    if(!empty($request['data'])){
+        foreach($request['data'] as $key => $values){
+            if($column != $key){
+               $in =  "'" . implode("','", $values) . "'";
+               $where[] =  "`$key` IN ($in)";
+            }
+       }
+       $where_clause = implode(" and ", $where);
     }
 
     $where_clause = implode(" and ", $where);

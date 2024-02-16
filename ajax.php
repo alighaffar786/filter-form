@@ -2,8 +2,16 @@
   include_once("function.php");
   include_once("config.php");
 
-  if($_POST['request']){
-    echo json_encode(get_ajax($_POST['request'],$mapping));
+  if(!empty($_POST['request'])){
+    $response_data = get_ajax($_POST['request'],$mapping);
+    if(empty($_POST['request']['all_option'])){
+      echo json_encode($response_data);
+      die;
+    }else{
+      $getdata = get_all_option($mapping);
+      echo json_encode($getdata);
+      die;
+    }
   }
 
   function get_ajax($request, $columns){
@@ -11,25 +19,26 @@
     if(!empty($request["column"])){
       unset($columns[$request["column"]]);
     }
-    // $where = [];
-    // foreach($request['data'] as $column => $values){
-    //       $in =  "'" . implode("','", $values) . "'";
-    //       $where[] =  "`$column` IN ($in)";
-    // }
-
-    // $where_clause = implode(" and ", $where);
-
+    $request_data = !empty($request['data']) ? $request : [];
     foreach($columns as $column) {
+        $selected = !empty($request['data']) ? $request['data'][$column] : "";
         $data[toSnakeCase($column)] = [
-
-                'html' => get_options(getData($column, $request)), 
-                "column" => $column,
-                'selected' => $request['data'][$column]
-            ];
+                'html' => get_options(getData($column, $request_data)), 
+                'selected' =>  $selected
+        ];
     }
     
-    echo json_encode($data);
-    die;
+    // echo json_encode($data);
+    // die;
+    return $data;
+  }
+  function get_all_option($mapping){
+    foreach($mapping as $column) {
+      $data[toSnakeCase($column)] = [
+        'html' => get_options(getData($column, [])), 
+      ];
+    }
+    return $data;
   }
 
 ?>
