@@ -8,7 +8,9 @@
 
   function get_ajax($request, $columns){
     $data = [];
-    unset($columns[$request["column"]]);
+    if(!empty($request["column"])){
+      unset($columns[$request["column"]]);
+    }
     // $where = [];
     // foreach($request['data'] as $column => $values){
     //       $in =  "'" . implode("','", $values) . "'";

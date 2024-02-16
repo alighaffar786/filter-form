@@ -28,7 +28,7 @@ function getData($column, $request){
     if(!empty($where_clause)) {
         $sql.= " where ".$where_clause;
     }
-    wh_log($column.print_r($where,true).$sql);
+    wh_log($sql);
     
     $result = connection()->query($sql);
     $data = [];
