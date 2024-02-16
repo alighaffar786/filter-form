@@ -1,17 +1,5 @@
 <?php
-function connection(){
-    $_host = "localhost";
-    $_username = "root";
-    $_password = "admin";
-    $_database = "kms_courses";
-    $connection =  new mysqli($_host, $_username, $_password,$_database);
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
-    }
-    else{
-        return $connection;
-    }
-}
+require_once("_db.php");
 function getData($column, $request){
     $sql = "Select distinct(`$column`) as option_value from kms_courses_dev";
 
@@ -66,6 +54,7 @@ function toSnakeCase($inputString) {
 }
 
 function get_options($options) {
+    $option_value = "";
     foreach ($options as $option){
         $option_value .= "<option name='$option' value='$option'>$option</option>";
     }

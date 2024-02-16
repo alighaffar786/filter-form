@@ -23,7 +23,7 @@ $(document).ready(function() {
       if (Object.keys(request['data']).length === 0) {
           request['all_option'] = "true"
       } 
-      
+      console.log("request",request)
       ajax_call(request);
   });
 
@@ -35,22 +35,20 @@ $(document).ready(function() {
               request
           },
           success: function(response) {
-              // console.log("response", response);
-              if (response.trim() !== "") {
+             
+              if (response.length > 0) {
                   const columns = JSON.parse(response);
-
+                  console.log("response", columns);
                   for (const column in columns) {
                       const data = columns[column];
-                      const options = data['html'];
-                      const selected = data['selected'];
-                      // console.log(`select#${column}`, selected);
-
+                      
+                      const options = data['html']!==false ? data['html']: "";
+                      
                       jQuery(`select#${column}`).html(options);
-
-                      if (data['selected'] !== "") {
-                          jQuery(`select#${column}`).val(selected);
+                      if (data['selected'].length > 0) {
+                        const selected = data['selected'];
+                        jQuery(`select#${column}`).val(selected);
                       }
-
                       jQuery(`select#${column}`).select2('destroy');
                       jQuery(`select#${column}`).select2();
                   }
