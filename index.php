@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -19,26 +18,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./select2/dist/js/select2.min.js"></script>
     <link href="./select2/dist/css/select2.min.css" rel="stylesheet" />
     <!--    custom css file -->
-    <link rel="stylesheet" href="./assets/custom.css">
+    <link rel="stylesheet" href="./assets/custom.css?v=2">
     <title>Filter Form</title>
 </head>
-<?php 
-  include_once("config.php");
-  include_once("function.php");
+<?php
+include_once("config.php");
+include_once("function.php");
 ?>
 
 <body>
     <div class="container-fluid">
         <form action="" class="program-form">
             <?php
-              $rows = array_chunk($fields,4, true);
-              foreach($rows as $row):
-                  include("_row.php");
-              endforeach;
+            $rows = array_chunk($fields, 4, true);
+            foreach ($rows as $row):
+                include("_row.php");
+            endforeach;
             ?>
             <div class="row ">
                 <!-- date  select-->
@@ -57,9 +56,13 @@
                 <div class="col-md-6 ">
                     <div class="form-group">
                         <label class="control-label">Solumns to Show</label>
-                        <select class="select2 form-control" name="programs[]" multiple="multiple">
-                            <option value="AL">Alabama</option>
-                            <option value="WY">Wyoming</option>
+                        <select class="coulmns-select form-control" name="coulmns_select[]" multiple="multiple">
+                            <?php 
+                        foreach (get_columns() as $field => $label){ ?>
+                            <option value="<?php echo $field; ?>"><?php echo $label; ?></option>
+                            <?php
+                            }
+                        ?>
                         </select>
                     </div>
                 </div>
@@ -90,6 +93,6 @@
         </form>
     </div>
 </body>
-<script src="./assets/custom.js"></script>
+<script src="./assets/custom.js?v=4.1"></script>
 
 </html>

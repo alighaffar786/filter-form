@@ -16,3 +16,7 @@
     vertical-align: middle;
     align-items: center;
 }
+
+ul li.select2-results__option--disabled {
+    display:none;
+}
